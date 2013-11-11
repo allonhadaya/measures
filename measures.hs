@@ -1,9 +1,10 @@
 import Data.List
 import System.Environment
 
+-- usage: ./measures x y
 main = do
   args <- getArgs
-  let f (x:y:_) = gaps x y in mapM_ (putStrLn . show) $ f (map read args)
+  let f (x:y:[]) = gaps x y in mapM_ (putStrLn . show) $ f (map read args)
 
 -- counts up beat gaps for polyrhythm x | y
 gaps x y = (tail . count_gap) $ down x y
