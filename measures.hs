@@ -1,25 +1,23 @@
 import Data.List
 import System.Environment
 
--- usage: ./measures x y
+-- usage: ./measures x0 x1 .. xn
 main = do
   args <- getArgs
-  let f (x:y:[]) = gaps x y in mapM_ (putStrLn . show) $ f (map read args)
+  mapM_ (putStrLn . show) $ gaps $ map read args
 
--- counts up beat gaps for polyrhythm x | y
-gaps x y = (tail . count_gap) $ down x y
-
--- builds a list of down beats
-down x y = map is_down $ count x y
-
--- builds up parallel counts for two signatures
-count x y = zip (cycle [1..x]) (cycle [1..y])
-
--- maps counts to down beats
-is_down (1, _) = True
-is_down (_, 1) = True
-is_down (_, _) = False
+-- counts up beat gaps for a polyrhythm xs
+gaps xs = (tail . count_gap) $ downs xs
 
 -- counts up beats between down beats
 count_gap (True:xs) = 0 : count_gap xs
 count_gap (False:xs) = let (u:us) = count_gap xs in (1 + u):us
+
+-- marks the up beats in a polyrhythm
+ups xs = map not $ downs xs
+
+-- marks the down beats in a polyrhythm
+downs xs = map (any (\x -> x == 1)) $ count xs
+
+-- builds up parallel counts
+count xs = transpose $ map (\x -> cycle [1..x]) xs
