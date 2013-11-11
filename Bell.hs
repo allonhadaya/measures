@@ -13,5 +13,5 @@ output (message, delay) = do
   putStrLn message
   threadDelay delay
 
-signal True = "\a!"
-signal False = "."
+signal True = "down!"
+signal False = "up."
