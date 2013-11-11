@@ -1,10 +1,6 @@
-import Data.List
-import System.Environment
+module Polyrhythm (gaps, ups, downs) where
 
--- usage: ./measures x0 x1 .. xn
-main = do
-  args <- getArgs
-  mapM_ (putStrLn . show) $ gaps $ map read args
+import Data.List
 
 -- counts up beat gaps for a polyrhythm xs
 gaps xs = (tail . count_gap) $ downs xs
