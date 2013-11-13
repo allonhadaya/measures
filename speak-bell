@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BPM=$1
+shift
+./Bell $@ | espeak -s $BPM -v esperanto
